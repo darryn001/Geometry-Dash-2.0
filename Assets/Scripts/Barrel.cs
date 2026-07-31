@@ -32,4 +32,5 @@ public class Barrel : MonoBehaviour
         // Prevent the barrel from triggering repeatedly while the player is inside it
         barrelCollider.enabled = false;
     }
+
 }

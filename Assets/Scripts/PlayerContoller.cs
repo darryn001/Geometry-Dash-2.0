@@ -5,11 +5,15 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Jump Settings")]
     public float jumpForce = 9f;
-    public LayerMask groundLayer; // set this to whatever layer ground/platforms are on
+    public LayerMask groundLayer; // set this to whatever layer your ground/platforms are on
 
     [Header("Ground Check")]
     public Transform groundCheck;   // empty child GameObject placed at the player's feet
     public float groundCheckRadius = 0.15f;
+
+    [Header("Knockback")]
+    public float knockbackDuration = 0.25f; // how long the auto-run override is paused after a hit
+    private float knockbackTimer = 0f;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -37,6 +41,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // While knocked back, let physics carry the impulse instead of forcing run speed.
+        if (knockbackTimer > 0f)
+        {
+            knockbackTimer -= Time.fixedDeltaTime;
+            return;
+        }
+
         // Auto-run: horizontal speed is driven entirely by GameManager's ramping speed value.
         // While waiting to start or game over, horizontal speed is locked to 0.
         float targetSpeedX = 0f;
@@ -52,6 +63,7 @@ public class PlayerController : MonoBehaviour
     // Called by Barrel.cs to apply a knockback impulse
     public void ApplyKnockback(Vector2 force)
     {
+        knockbackTimer = knockbackDuration; // pause auto-run override so the impulse is actually visible
         rb.linearVelocity = Vector2.zero; // cancel current momentum so the knockback feels consistent
         rb.AddForce(force, ForceMode2D.Impulse);
     }
