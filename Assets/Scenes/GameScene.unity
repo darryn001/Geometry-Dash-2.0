@@ -2946,9 +2946,12 @@ MonoBehaviour:
   startSpeed: 5
   maxSpeed: 14
   speedRampRate: 0.15
+  maxHealth: 3
+  invincibleTime: 1
   startPromptUI: {fileID: 0}
   gameOverPanelUI: {fileID: 1999252609}
   levelCompletePanelUI: {fileID: 0}
+  heartUI: {fileID: 911212495}
 --- !u!4 &252245451
 Transform:
   m_ObjectHideFlags: 0
@@ -8468,7 +8471,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 252245450}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Retry
+        m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8784,6 +8787,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &911212494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 911212496}
+  - component: {fileID: 911212495}
+  m_Layer: 0
+  m_Name: HeartsUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &911212495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911212494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983e73c2b61facc4bba71f61dbfef946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hearts:
+  - {fileID: 158562151}
+  - {fileID: 1521219366}
+  - {fileID: 10233493}
+--- !u!4 &911212496
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911212494}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.751392, y: 2.3544958, z: -0.1112154}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &918722489
 GameObject:
   m_ObjectHideFlags: 0
@@ -12687,9 +12738,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
+  currentHealth: 0
   heartUI: {fileID: 147770661}
   gameManager: {fileID: 252245450}
   invincibleTime: 1
+  canTakeDamage: 1
 --- !u!1 &1409447506
 GameObject:
   m_ObjectHideFlags: 0
@@ -19654,3 +19707,4 @@ SceneRoots:
   - {fileID: 252245451}
   - {fileID: 147770665}
   - {fileID: 714027161}
+  - {fileID: 911212496}
