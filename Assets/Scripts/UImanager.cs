@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class UImanager : MonoBehaviour
 {
+    [SerializeField] private GameObject howToPlayPanel;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,5 +23,21 @@ public class UImanager : MonoBehaviour
     {
         PlayerPrefs.SetString("Scene to go to", "GameScene");
         SceneManager.LoadScene("GameScene");
+    }
+
+    public void OpenHowToPlayPanel()
+    {
+        if (howToPlayPanel != null)
+        {
+            howToPlayPanel.SetActive(true);
+        }
+    }
+
+    public void CloseHowToPlayPanel()
+    {
+        if (howToPlayPanel != null)
+        {
+            howToPlayPanel.SetActive(false);
+        }
     }
 }
