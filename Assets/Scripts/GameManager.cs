@@ -7,6 +7,7 @@ using TMPro; // remove this line if you're not using TextMeshPro
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    private const string StartSceneName = "StartScreen";
 
     public enum GameState { WaitingToStart, Playing, GameOver, LevelComplete }
     public GameState CurrentState { get; private set; } = GameState.WaitingToStart;
@@ -47,6 +48,11 @@ public class GameManager : MonoBehaviour
         if (levelCompletePanelUI != null) levelCompletePanelUI.SetActive(false);
 
         Time.timeScale = 1f;
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayBackgroundMusic();
+        }
     }
 
     private void Update()
@@ -107,7 +113,10 @@ public class GameManager : MonoBehaviour
 
     public void TriggerGameOver()
     {
+        if (CurrentState == GameState.GameOver || CurrentState == GameState.LevelComplete) return;
+
         CurrentState = GameState.GameOver;
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayGameOverSound();
         if (gameOverPanelUI != null) gameOverPanelUI.SetActive(true);
         // Optional: freeze time so nothing keeps moving behind the menu
         Time.timeScale = 0f;
@@ -115,9 +124,12 @@ public class GameManager : MonoBehaviour
 
     public void TriggerLevelComplete()
     {
+        if (CurrentState == GameState.GameOver || CurrentState == GameState.LevelComplete) return;
+
         // Movement stops automatically: PlayerController only applies horizontal speed
         // while CurrentState == Playing, so switching state here halts the player.
         CurrentState = GameState.LevelComplete;
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayWinSound();
         if (levelCompletePanelUI != null) levelCompletePanelUI.SetActive(true);
         // Freeze time so the player, camera, and any moving hazards all stop in place
         Time.timeScale = 0f;
@@ -148,8 +160,7 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
-        // Note: Application.Quit() does nothing in the Editor.
-        
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(StartSceneName);
     }
 }
