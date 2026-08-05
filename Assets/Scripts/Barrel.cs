@@ -25,6 +25,8 @@ public class Barrel : MonoBehaviour
             player.ApplyKnockback(knockbackForce);
         }
 
+        if (AudioManager.Instance != null) AudioManager.Instance.PlayHitSound();
+
         // No argument needed - GameManager.TakeDamage() always takes 1 heart,
         // and handles the invincibility cooldown internally.
         GameManager.Instance.TakeDamage();
